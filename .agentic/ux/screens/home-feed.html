@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --color-bg:#FAF7F2;--color-surface:#FFFFFF;--color-surface-sunken:#F1ECE4;--color-border:#E3DCD2;
+  --color-text:#1E1B18;--color-muted:#5F5850;--color-accent:#A63D24;--color-accent-strong:#8C2F1B;
+  --color-accent-soft:#F6E3DC;--color-on-accent:#FFFFFF;--color-ink:#1E1B18;--color-on-ink:#FAF7F2;
+  --color-danger:#B3261E;--color-success:#2E7D4F;--color-focus:#1E1B18;
+  --font-family:system-ui,sans-serif;--font-display:ui-serif,serif;
+  --font-size-xs:12px;--font-size-sm:13px;--font-size-md:15px;--font-size-lg:18px;--font-size-xl:24px;--font-size-xxl:32px;
+  --space-xxs:2px;--space-xs:4px;--space-sm:8px;--space-md:16px;--space-lg:24px;--space-xl:40px;--space-xxl:64px;
+  --radius-sm:4px;--radius-md:8px;--radius-lg:14px;--radius-pill:999px;
+  --shadow-card:0 1px 2px rgba(30,27,24,.06),0 4px 16px rgba(30,27,24,.06);--shadow-dialog:0 12px 48px rgba(30,27,24,.28);
+  --feed-max:600px;--rail:300px;--tap:44px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-bg);color:var(--color-text);font:var(--font-size-md)/1.5 var(--font-family)}
+:focus-visible{outline:3px solid var(--color-focus);outline-offset:2px}
+button{font:inherit;cursor:pointer}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.mark{display:inline-flex;align-items:center;gap:var(--space-sm);font-family:var(--font-display);font-size:var(--font-size-xl);letter-spacing:-.01em;text-decoration:none;color:inherit}
+.btn{min-height:var(--tap);padding:0 var(--space-md);border-radius:var(--radius-pill);border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font-weight:500}
+.btn-primary{background:var(--color-accent);border-color:var(--color-accent);color:var(--color-on-accent)}
+.btn-primary:hover{background:var(--color-accent-strong)}
+.btn-following{background:var(--color-accent-soft);border-color:var(--color-accent-soft);color:var(--color-accent-strong)}
+.avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--color-surface-sunken);color:var(--color-text);font-weight:700;font-size:var(--font-size-sm);flex:none}
+.muted{color:var(--color-muted)}
+</style>
+<script>
+/* Placeholder photo: a generated SVG landscape (no external images). */
+function art(seed,w,h){w=w||800;h=h||1000;
+ var P=[["#F4B88A","#F7E2C6","#FFF3DA","#7A5C61","#3E3440"],["#8EC5D6","#DDEFF2","#FFFFFF","#5D8C7B","#2F4F4A"],["#2B2F4E","#6A5D86","#F3D9A4","#3A3552","#1B1C2E"],["#E9C46A","#F4E3B5","#FFFBEA","#B5835A","#6B4E3D"],["#C9D6DF","#EEF2F4","#FAFAFA","#8A9BA8","#4A5A66"],["#F28F79","#FBD1A2","#FFF1D6","#9C4F5C","#4B2C3A"]];
+ var p=P[seed%P.length],r=function(n){return((seed*9301+49297*n)%233280)/233280};
+ var sx=Math.round(w*(0.2+0.6*r(1))),sy=Math.round(h*(0.22+0.2*r(2))),y1=Math.round(h*(0.55+0.1*r(3))),y2=Math.round(h*(0.72+0.1*r(4)));
+ var s="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 "+w+" "+h+"'><defs><linearGradient id='s' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='"+p[0]+"'/><stop offset='1' stop-color='"+p[1]+"'/></linearGradient></defs><rect width='"+w+"' height='"+h+"' fill='url(#s)'/><circle cx='"+sx+"' cy='"+sy+"' r='"+Math.round(w*0.09)+"' fill='"+p[2]+"'/><path d='M0 "+y1+" L"+Math.round(w*0.3)+" "+Math.round(y1-h*0.12)+" L"+Math.round(w*0.55)+" "+Math.round(y1-h*0.03)+" L"+Math.round(w*0.8)+" "+Math.round(y1-h*0.15)+" L"+w+" "+Math.round(y1-h*0.05)+" V"+h+" H0Z' fill='"+p[3]+"'/><path d='M0 "+y2+" Q"+Math.round(w*0.4)+" "+Math.round(y2-h*0.1)+" "+w+" "+Math.round(y2+h*0.02)+" V"+h+" H0Z' fill='"+p[4]+"'/></svg>";
+ return "data:image/svg+xml,"+encodeURIComponent(s);}
+var LOGO='<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 9V3h6M19 3h6v6M25 19v6h-6M9 25H3v-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="14" cy="14" r="4" fill="#A63D24"/></svg>';
+var POSTS=[
+ {id:1,name:"Naledi Dube",handle:"naledi.frames",city:"Bo-Kaap, Cape Town",ago:"4 min",w:800,h:1000,cap:"First light on Wale Street. The houses wake up one colour at a time.",alt:"Pastel houses on a sloping street at dawn"},
+ {id:2,name:"Pieter van Wyk",handle:"karoo.pieter",city:"Prince Albert",ago:"38 min",w:1200,h:800,cap:"Twenty minutes of nothing, then this. Karoo patience pays.",alt:"Wide dry plain under a pale sun"},
+ {id:3,name:"Ayesha Patel",handle:"ayesha.p",city:"Durban",ago:"1 h",w:800,h:800,cap:"Fishermen on the pier before the surfers arrive.",alt:"Silhouettes on a pier at sunrise"},
+ {id:4,name:"Sipho Ndlovu",handle:"sipho.sees",city:"Soweto",ago:"2 h",w:800,h:1000,cap:"Vilakazi Street, Saturday rhythm. Shot on a 35mm prime, nothing else.",alt:"Busy street with long evening shadows"},
+ {id:5,name:"Lerato Khumalo",handle:"lerato.light",city:"Drakensberg",ago:"5 h",w:1200,h:800,cap:"Amphitheatre in cloud. Waited for the gap.",alt:"Mountain wall half hidden by cloud"},
+ {id:6,name:"Mia Botha",handle:"mia.analog",city:"Knysna",ago:"Yesterday",w:800,h:1000,cap:"Lagoon at slack tide, colours straight out of camera.",alt:"Still lagoon reflecting hills"},
+ {id:7,name:"Jonah Februarie",handle:"jonah.f",city:"Paternoster",ago:"Yesterday",w:800,h:800,cap:"White walls, blue doors, one cat who refused to move.",alt:"Whitewashed cottage with blue door"},
+ {id:8,name:"Zanele Mthembu",handle:"zanele.m",city:"Makhanda",ago:"2 d",w:1200,h:800,cap:"Festival week, the quiet hour after.",alt:"Empty festival street at dusk"}
+];
+function initials(n){return n.split(" ").map(function(x){return x[0]}).join("").slice(0,2)}
+</script>
+<title>Framely home feed (final)</title>
+<style>
+.top{position:sticky;top:0;z-index:2;background:var(--color-bg);border-bottom:1px solid var(--color-border);display:flex;align-items:center;gap:var(--space-md);padding:var(--space-sm) var(--space-lg)}
+.top .spacer{flex:1}
+.top .compose-top{display:inline-flex;align-items:center;gap:var(--space-sm)}
+kbd{font:var(--font-size-xs) var(--font-family);border:1px solid currentColor;border-radius:var(--radius-sm);padding:0 var(--space-xs)}
+.wrap{display:grid;grid-template-columns:minmax(0,var(--feed-max)) var(--rail);gap:var(--space-xl);justify-content:center;padding:var(--space-lg)}
+.fresh{display:flex;align-items:center;justify-content:space-between;gap:var(--space-md);background:var(--color-accent-soft);color:var(--color-accent-strong);border-radius:var(--radius-md);padding:var(--space-sm) var(--space-md);margin-bottom:var(--space-lg);font-weight:500}
+.card{background:var(--color-surface);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);margin:0 0 var(--space-lg);overflow:hidden}
+.card header{display:flex;align-items:center;gap:var(--space-sm);padding:var(--space-md)}
+.who{flex:1;min-width:0;line-height:1.25}.who b{display:block}.who span{font-size:var(--font-size-sm)}
+.card img{display:block;width:100%;height:auto;background:var(--color-surface-sunken)}
+.card p{margin:0;padding:var(--space-md) var(--space-md) var(--space-xs)}
+.card time{display:block;padding:0 var(--space-md) var(--space-md);font-size:var(--font-size-xs);color:var(--color-muted)}
+.panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-md);position:sticky;top:80px}
+.panel h2{font-size:var(--font-size-md);margin:0 0 var(--space-sm)}
+.panel ul{list-style:none;margin:0;padding:0}.panel li{display:flex;align-items:center;gap:var(--space-sm);padding:var(--space-sm) 0}
+.panel li .who{font-size:var(--font-size-sm)}
+.more{display:block;margin:0 auto var(--space-xl)}
+.skel{background:linear-gradient(90deg,var(--color-surface-sunken),var(--color-border),var(--color-surface-sunken));background-size:200% 100%;animation:sh 1.2s infinite;border-radius:var(--radius-sm)}
+@keyframes sh{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.skel{animation:none}}
+.state-box{background:var(--color-surface);border-radius:var(--radius-lg);padding:var(--space-xl) var(--space-lg);text-align:center;box-shadow:var(--shadow-card)}
+.state-box h2{font-family:var(--font-display);font-weight:400;font-size:var(--font-size-xl);margin:var(--space-sm) 0}
+.state-box.error{border-left:4px solid var(--color-danger);text-align:left}
+.state-box.error h2{color:var(--color-danger)}
+dialog{border:0;border-radius:var(--radius-lg);box-shadow:var(--shadow-dialog);padding:0;width:min(520px,calc(100vw - 32px));background:var(--color-surface);color:var(--color-text)}
+dialog::backdrop{background:rgba(30,27,24,.55)}
+dialog form{padding:var(--space-lg);display:grid;gap:var(--space-md)}
+dialog h2{margin:0;font-family:var(--font-display);font-weight:400;font-size:var(--font-size-xl)}
+label{font-weight:500;display:grid;gap:var(--space-xs)}
+textarea,input[type=text]{font:inherit;border:1px solid var(--color-muted);border-radius:var(--radius-md);padding:var(--space-sm);background:var(--color-surface);color:var(--color-text)}
+.pick{display:grid;place-items:center;gap:var(--space-xs);border:2px dashed var(--color-border);border-radius:var(--radius-md);padding:var(--space-lg);background:var(--color-surface-sunken);text-align:center}
+.pick img{max-width:100%;max-height:200px;border-radius:var(--radius-sm)}
+.hint{font-size:var(--font-size-sm);color:var(--color-muted);margin:0}
+.err{color:var(--color-danger);font-size:var(--font-size-sm);margin:0}
+.ok{color:var(--color-success);font-weight:500;margin:0}
+.actions{display:flex;justify-content:flex-end;gap:var(--space-sm)}
+.switcher{position:fixed;left:var(--space-md);bottom:var(--space-md);z-index:5;background:var(--color-ink);color:var(--color-on-ink);border-radius:var(--radius-md);padding:var(--space-sm);display:flex;gap:var(--space-xs);flex-wrap:wrap;font-size:var(--font-size-sm)}
+.switcher button{background:transparent;color:var(--color-on-ink);border:1px solid rgba(250,247,242,.4);border-radius:var(--radius-sm);padding:var(--space-xs) var(--space-sm)}
+.switcher button[aria-pressed=true]{background:var(--color-on-ink);color:var(--color-ink)}
+.fab{display:none}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);padding:0}.wrap aside,.top .compose-top{display:none}.card{border-radius:0;box-shadow:none;border-bottom:1px solid var(--color-border);margin:0}.fresh{margin:var(--space-sm);}
+ .fab{display:grid;place-items:center;position:fixed;right:var(--space-md);bottom:var(--space-md);width:56px;height:56px;border-radius:50%;border:0;background:var(--color-accent);color:var(--color-on-accent);font-size:28px;box-shadow:var(--shadow-dialog)}
+ .switcher{bottom:auto;top:64px;left:var(--space-sm)}}
+</style>
+</head><body>
+<header class="top">
+  <a class="mark" href="#" aria-label="Framely home"><span id="logo"></span>framely</a><span class="spacer"></span>
+  <button class="btn btn-primary compose-top" data-compose aria-keyshortcuts="n">Post a photo <kbd>N</kbd></button>
+  <span class="avatar" role="img" aria-label="Viewing as Thandi Mahlangu">TM</span>
+</header>
+<div class="wrap">
+  <main aria-label="Home feed, newest first" aria-busy="false" id="main"></main>
+  <aside aria-label="Photographers to follow"><div class="panel"><h2>Photographers to follow</h2><ul id="suggest"></ul></div></aside>
+</div>
+<button class="fab" data-compose aria-label="Post a photo">+</button>
+
+<dialog id="compose" aria-labelledby="ct">
+  <form method="dialog" id="cf" novalidate>
+    <h2 id="ct">Post a photo</h2>
+    <div class="pick" id="pick"><button type="button" class="btn">Choose a JPEG</button><p class="hint">JPEG up to 10 MB. Location (GPS) data is removed unless location sharing is on in your settings.</p></div>
+    <label>Caption <textarea id="cap" rows="3" maxlength="500" aria-describedby="capn"></textarea></label><p class="hint" id="capn">0 / 500</p>
+    <label>Describe the photo (alt text) <input type="text" id="alt" maxlength="300"></label>
+    <p id="cmsg" role="status" aria-live="polite"></p>
+    <div class="actions"><button class="btn" value="cancel">Cancel</button><button class="btn btn-primary" id="postbtn" type="button">Post to followers</button></div>
+  </form>
+</dialog>
+
+<div class="switcher" role="group" aria-label="Design state switcher (sketch only)">
+  <span>Feed:</span><button data-s="loading">Loading</button><button data-s="empty">Empty</button><button data-s="error">Error</button><button data-s="success" aria-pressed="true">Success</button>
+  <span>Compose:</span><button data-c="idle">Idle</button><button data-c="uploading">Uploading</button><button data-c="rejected">Rejected</button><button data-c="posted">Posted</button>
+</div>
+<script>
+document.getElementById("logo").innerHTML=LOGO;
+function ini(n){return n.split(" ").filter(function(w){return /^[A-Z]/.test(w)}).map(function(w){return w[0]}).join("").slice(0,2)}
+var main=document.getElementById("main");
+var V={
+ success:function(){return '<div class="fresh" role="status"><span>8 new frames from 6 photographers since this morning</span></div>'+POSTS.map(function(p){return '<article class="card" aria-labelledby="a'+p.id+'"><header><span class="avatar" aria-hidden="true">'+ini(p.name)+'</span><span class="who"><b id="a'+p.id+'">'+p.name+'</b><span class="muted">@'+p.handle+' · '+p.city+'</span></span></header><img alt="'+p.alt+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" src="'+art(p.id,p.w,p.h)+'"><p>'+p.cap+'</p><time>'+p.ago+' ago</time></article>'}).join("")+'<button class="btn more">Show older frames</button>'},
+ loading:function(){var c='<article class="card" aria-hidden="true"><header><span class="avatar skel"></span><span class="who"><span class="skel" style="display:block;height:14px;width:40%"></span><span class="skel" style="display:block;height:12px;width:60%;margin-top:6px"></span></span></header><div class="skel" style="aspect-ratio:4/5;border-radius:0"></div><p><span class="skel" style="display:block;height:14px;width:80%"></span></p><time>&nbsp;</time></article>';return '<p class="sr-only" role="status">Loading your feed…</p>'+c+c},
+ empty:function(){return '<div class="state-box"><div id="lg2"></div><h2>Your wall is empty</h2><p class="muted">Follow a few photographers and their newest frames land here first.</p><p><button class="btn btn-primary">Find photographers</button></p></div>'},
+ error:function(){return '<div class="state-box error" role="alert"><h2>We couldn\'t load your feed</h2><p>Check your connection and try again. Your posts are safe.</p><p class="muted" style="font-size:var(--font-size-sm)">Reference: 7f3c-2a</p><p><button class="btn btn-primary">Try again</button></p></div>'}
+};
+function feed(s){main.setAttribute("aria-busy",s==="loading");main.innerHTML=V[s]();var l=document.getElementById("lg2");if(l)l.innerHTML=LOGO.replace('width="28" height="28"','width="56" height="56"');
+ [].forEach.call(document.querySelectorAll("[data-s]"),function(b){b.setAttribute("aria-pressed",b.dataset.s===s)});}
+var S=[["Kagiso Sello","kagiso.street","Pretoria",false],["Fatima Abrahams","fatima.film","Stellenbosch",false],["Ruan Pretorius","ruan.wild","Hoedspruit",true]];
+function rail(){document.getElementById("suggest").innerHTML=S.map(function(s,k){return '<li><span class="avatar" aria-hidden="true">'+ini(s[0])+'</span><span class="who"><b>'+s[0]+'</b><span class="muted">@'+s[1]+' · '+s[2]+'</span></span><button class="btn '+(s[3]?'btn-following':'')+'" aria-pressed="'+s[3]+'" aria-label="'+(s[3]?'Following ':'Follow ')+s[0]+'" data-f="'+k+'">'+(s[3]?'Following':'Follow')+'</button></li>'}).join("");
+ [].forEach.call(document.querySelectorAll("[data-f]"),function(b){b.onclick=function(){var s=S[b.dataset.f];s[3]=!s[3];rail()}})}
+var dlg=document.getElementById("compose"),msg=document.getElementById("cmsg"),pick=document.getElementById("pick"),pb=document.getElementById("postbtn");
+function compose(c){var img='<img alt="Selected photo preview" src="'+art(3,800,600)+'">';
+ pb.disabled=c==="uploading";pb.textContent=c==="uploading"?"Posting…":"Post to followers";
+ pick.innerHTML=c==="idle"?'<button type="button" class="btn">Choose a JPEG</button><p class="hint">JPEG up to 10 MB. Location (GPS) data is removed unless location sharing is on in your settings.</p>':img+'<p class="hint">harbour-dawn.jpg · 3.2 MB · location data will be removed</p>';
+ msg.className=c==="rejected"?"err":c==="posted"?"ok":"hint";
+ msg.textContent=c==="rejected"?"That file is a PNG. Framely accepts JPEG photos up to 10 MB.":c==="posted"?"Posted. Your 214 followers will see it at the top of their feed.":c==="uploading"?"Uploading and removing location data…":"";
+ [].forEach.call(document.querySelectorAll("[data-c]"),function(b){b.setAttribute("aria-pressed",b.dataset.c===c)});if(!dlg.open)dlg.showModal();}
+document.getElementById("cap").oninput=function(e){document.getElementById("capn").textContent=e.target.value.length+" / 500"};
+[].forEach.call(document.querySelectorAll("[data-compose]"),function(b){b.onclick=function(){compose("idle")}});
+[].forEach.call(document.querySelectorAll("[data-s]"),function(b){b.onclick=function(){feed(b.dataset.s)}});
+[].forEach.call(document.querySelectorAll("[data-c]"),function(b){b.onclick=function(){compose(b.dataset.c)}});
+pb.onclick=function(){compose("uploading");setTimeout(function(){compose("posted")},900)};
+document.addEventListener("keydown",function(e){if(e.key==="n"&&!dlg.open&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();compose("idle")}});
+feed("success");rail();
+</script>
+</body></html>

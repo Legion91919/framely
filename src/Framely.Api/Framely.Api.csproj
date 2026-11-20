@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <!-- Composition root: endpoints, DI, ProblemDetails, health checks, demo seed. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Modules\Media\Framely.Media\Framely.Media.csproj" />
+    <ProjectReference Include="..\Modules\Graph\Framely.Graph\Framely.Graph.csproj" />
+    <ProjectReference Include="..\Modules\Feed\Framely.Feed\Framely.Feed.csproj" />
+    <ProjectReference Include="..\Modules\Notifications\Framely.Notifications\Framely.Notifications.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Framely.Tests" />
+  </ItemGroup>
+</Project>

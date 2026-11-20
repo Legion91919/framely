@@ -1,0 +1,45 @@
+{
+  "$description": "Framely design tokens. Photos are the colour; chrome stays paper + ink with one safelight accent.",
+  "color": {
+    "bg": "#FAF7F2",
+    "surface": "#FFFFFF",
+    "surfaceSunken": "#F1ECE4",
+    "border": "#E3DCD2",
+    "text": "#1E1B18",
+    "muted": "#5F5850",
+    "accent": "#A63D24",
+    "accentStrong": "#8C2F1B",
+    "accentSoft": "#F6E3DC",
+    "onAccent": "#FFFFFF",
+    "ink": "#1E1B18",
+    "onInk": "#FAF7F2",
+    "danger": "#B3261E",
+    "success": "#2E7D4F",
+    "focus": "#1E1B18"
+  },
+  "contrast": {
+    "$description": "WCAG 2.1 ratios for every text/background pair used. All >= 4.5:1 (AA body text).",
+    "text/bg": 16.04,
+    "muted/bg": 6.55,
+    "muted/surface": 7.0,
+    "muted/surfaceSunken": 5.96,
+    "accent/bg": 5.93,
+    "accent/surface": 6.34,
+    "onAccent/accent": 6.34,
+    "accentStrong/accentSoft": 6.68,
+    "onInk/ink": 16.04,
+    "danger/surface": 6.54,
+    "success/surface": 5.05
+  },
+  "font": {
+    "family": "system-ui, sans-serif",
+    "display": "ui-serif, serif",
+    "size": { "xs": "12px", "sm": "13px", "md": "15px", "lg": "18px", "xl": "24px", "xxl": "32px" },
+    "weight": { "regular": 400, "medium": 500, "bold": 700 },
+    "lineHeight": { "tight": 1.2, "normal": 1.5 }
+  },
+  "space": { "xxs": "2px", "xs": "4px", "sm": "8px", "md": "16px", "lg": "24px", "xl": "40px", "xxl": "64px" },
+  "radius": { "sm": "4px", "md": "8px", "lg": "14px", "pill": "999px" },
+  "shadow": { "card": "0 1px 2px rgba(30,27,24,0.06), 0 4px 16px rgba(30,27,24,0.06)", "dialog": "0 12px 48px rgba(30,27,24,0.28)" },
+  "layout": { "feedMaxWidth": "600px", "railWidth": "300px", "tapTarget": "44px" }
+}

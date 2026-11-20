@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Module: Feed. References only the ASP.NET Core shared framework, never another module. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Framely.Tests" />
+  </ItemGroup>
+</Project>
