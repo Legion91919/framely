@@ -35,3 +35,7 @@ denylist.txt
 
 # Local media store (dev CDN origin)
 App_Data/
+
+# Demo recorder
+demo/node_modules/
+docs/media/.video/

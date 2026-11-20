@@ -2,6 +2,16 @@
 
 A photo-first social app for Lumen Collective (fictional), a network of 4,000 South African photographers. Photographers post a photo with a caption; their followers see it first in a quiet, ad-free home feed.
 
+## See it in action
+
+![Framely walkthrough: the home feed, Naledi posting a GPS-tagged JPEG, the post appearing first in her follower Thandi's feed with its location data stripped, and a non-follower's feed without it](docs/media/demo.gif)
+
+| Home feed | Posting a photo | Follower sees it first |
+|---|---|---|
+| ![Home feed of followed photographers](docs/media/feed.png) | ![Compose dialog with photo, caption and alt text](docs/media/compose.png) | ![The new post at the top of a follower's feed](docs/media/follower-sees-it.png) |
+
+Full-quality video: [docs/media/demo.mp4](docs/media/demo.mp4). Mobile: [docs/media/mobile.png](docs/media/mobile.png). Recorded from the running app with `demo/` (`cd demo && npm install && npm run record`); the uploaded JPEG (`demo/fixtures/harbour-dawn.jpg`) carries invented GPS EXIF, and the scenario counts the GPS tags left in the published copy.
+
 ## Design at a glance
 **Brief.** Local photographers have no photo-first community of their own. Framely gives them a home feed of the people they follow, newest first, opening in under 1 s on 4G, with location data stripped from photos unless they opt in (POPIA).
 
