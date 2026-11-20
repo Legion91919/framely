@@ -16,6 +16,19 @@ flowchart LR
   api -- stripped JPEGs --> cdn
 ```
 
+
+## Run it in GitHub Codespaces
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Legion91919/framely?quickstart=1)
+
+The dev container installs the SDKs, restores packages and runs every test once on first start. The same setup works locally with VS Code's Dev Containers extension.
+
+| What | Command | Port |
+|---|---|---|
+| API (Framely) | `ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://0.0.0.0:5101 dotnet run --project src/Framely.Api` | 5101 |
+| Web app | `cd web && npm run dev` | 5181 |
+| All tests (same as CI) | `scripts/test-all.sh` | - |
+
 ## What it does today (slice 1)
 - Home feed: photo cards (author, place, caption, time), 25 per page with an opaque cursor, loading / empty / error states.
 - Post a photo: compose dialog (JPEG up to 10 MB, caption, alt text) sends `multipart/form-data` with an `Idempotency-Key`; the API checks size and type, sniffs the bytes, strips EXIF/XMP (APP1) unless location sharing is on, stores the file and fans the post out to every follower's feed.
